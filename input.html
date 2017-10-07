@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Input</title>
+</head>
+
+<body>
+    <div id="app">
+        <form v-on:submit="request">
+            <label for="input">Search</label>
+            <input v-model="hashtag" type="text" placeholder="Insert a hashtag">
+        </form>
+    </div>
+
+    <script type="text/javascript" src="vendor/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="bundle.js"></script>
+    <script>
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                hashtag: ''
+            },
+            methods: {
+                request(event) {
+                    event.preventDefault();
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    };
+                    var myInit = {
+                        method: 'POST',
+                        headers: headers,
+                        mode: 'cors',
+                        cache: 'default',
+                        body: JSON.stringify({ hashtag: this.hashtag })
+                    };
+                    const call = fetch('/hashtag', myInit);
+                    call
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res)
+                        });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
